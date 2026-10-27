@@ -4,7 +4,7 @@
 
 <h3>اكتشف فيلمك القادم، احفظه، وشاهده من مكان واحد</h3>
 
-<p>تطبيق Flutter للأفلام بتصميم داكن ولمسات صفراء، يعرض بيانات الأفلام من <b>YTS</b> ويجمع البحث، التصفح حسب النوع، قائمة المشاهدة، وسجل المشاهدة في تجربة واحدة.</p>
+<p>تطبيق Flutter للأفلام بتصميم داكن ولمسات صفراء، يجمع البحث، التصفح حسب النوع، قائمة المشاهدة، وسجل المشاهدة في تجربة واحدة.</p>
 
 <p>
   <img src="https://img.shields.io/badge/Flutter-Dart-02569B?logo=flutter&amp;logoColor=white" alt="Flutter and Dart">
@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Local%20Storage-Hive-FFC400" alt="Hive storage">
 </p>
 
-<p><a href="#screenshots">الشاشات</a> · <a href="#features">الميزات</a> · <a href="#architecture">بنية المشروع</a> · <a href="#getting-started">التشغيل</a></p>
+<p><a href="#screenshots">الشاشات</a> · <a href="#features">الميزات</a> · <a href="#architecture">بنية المشروع</a></p>
 
 </div>
 
@@ -45,13 +45,17 @@
 <table>
   <tr>
     <td align="center"><a href="docs/screenshots/login.png"><img src="docs/screenshots/login.png" height="340" alt="Login screen"></a><br><b>Login</b><br><sub>تسجيل الدخول بالبريد أو Google<br>والتبديل بين العربية والإنجليزية</sub></td>
+    <td align="center"><a href="docs/screenshots/register.png"><img src="docs/screenshots/register.png" height="340" alt="Register screen"></a><br><b>Register</b><br><sub>إنشاء حساب جديد<br>بالاسم والبريد وكلمة المرور</sub></td>
     <td align="center"><a href="docs/screenshots/home.png"><img src="docs/screenshots/home.png" height="340" alt="Home screen"></a><br><b>Home</b><br><sub>أفلام مميزة وأحدث الأفلام<br>مع شريط تنقل سفلي</sub></td>
+  </tr>
+  <tr>
     <td align="center"><a href="docs/screenshots/search.png"><img src="docs/screenshots/search.png" height="340" alt="Search screen"></a><br><b>Search</b><br><sub>البحث عن فيلم وعرض<br>آخر نتائج البحث المحفوظة</sub></td>
     <td align="center"><a href="docs/screenshots/browse.png"><img src="docs/screenshots/browse.png" height="340" alt="Browse screen"></a><br><b>Browse</b><br><sub>تصفية الأفلام حسب النوع<br>وعرضها في شبكة ملصقات</sub></td>
+    <td align="center"><a href="docs/screenshots/movie-details.png"><img src="docs/screenshots/movie-details.png" height="340" alt="Movie details screen"></a><br><b>Movie Details</b><br><sub>تفاصيل الفيلم والتقييم والملخص<br>والإضافة إلى قائمة المشاهدة</sub></td>
   </tr>
 </table>
 
-> توجد أيضًا شاشات تفاصيل الفيلم، التسجيل، استعادة كلمة المرور، الملف الشخصي، وقائمة المشاهدة داخل التطبيق؛ الصور أعلاه هي اللقطات المتوفرة لهذه النسخة من README.
+> توجد أيضًا شاشات استعادة كلمة المرور، الملف الشخصي، وقائمة المشاهدة داخل التطبيق؛ الصور أعلاه هي اللقطات المتوفرة لهذه النسخة من README.
 
 ## Features
 
@@ -86,31 +90,6 @@ lib/
 ```
 
 **التقنيات:** Flutter · Dart · Firebase Authentication · Cloud Firestore · YTS API · Hive CE · flutter_bloc · video_player.
-
-## Getting Started
-
-1. ثبّت [Flutter SDK](https://docs.flutter.dev/get-started/install) وجهّز جهاز Android أو محاكيًا.
-2. نزّل المشروع وثبّت الحزم:
-
-   ```bash
-   git clone https://github.com/rwasei74/Movies.git
-   cd Movies
-   flutter pub get
-   ```
-
-3. تأكد من إعداد Firebase لتطبيقك، وتفعيل **Email/Password** و**Google** في Firebase Authentication. يحتاج تسجيل Google على Android إلى بصمات **SHA-1 / SHA-256** الخاصة بنسخة البناء المستخدمة.
-4. شغّل التطبيق على الهاتف:
-
-   ```bash
-   flutter devices
-   flutter run -d <android-device-id>
-   ```
-
-> تشغيل التورنت متاح في نسخة Android فقط، ويتوقف نجاحه على توفر المصدر واتصال الشبكة ودعم الجهاز لصيغة الفيديو. بيانات الأفلام والملصقات تأتي من YTS؛ استخدم المحتوى الذي تملك حق مشاهدته.
-
-## Current scope
-
-شاشة **Update Profile** موجودة كواجهة، لكن حفظ تعديلات الحساب وحذف الحساب غير موصولين بعد. نص التعريف يذكر **Rate & Review** كفكرة للتطبيق؛ كتابة المراجعات وتقييم المستخدمين ليست ميزة منفذة حاليًا.
 
 ---
 
