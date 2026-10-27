@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../onboarding/presentation/pages/onboarding_page.dart';
+import '../../../home/presentation/pages/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -17,10 +19,14 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(milliseconds: 1600), () {
+    _timer = Timer(const Duration(milliseconds: 1600), () async {
+      final user = await FirebaseAuth.instance.authStateChanges().first;
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(builder: (_) => const OnboardingPage()),
+        MaterialPageRoute<void>(
+          builder: (_) =>
+              user == null ? const OnboardingPage() : const HomePage(),
+        ),
       );
     });
   }

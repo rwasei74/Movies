@@ -23,11 +23,15 @@ class AuthTextField extends StatefulWidget {
     required this.icon,
     this.iconAsset,
     this.obscure = false,
+    this.controller,
+    this.keyboardType,
   });
   final String hint;
   final IconData icon;
   final String? iconAsset;
   final bool obscure;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -40,6 +44,9 @@ class _AuthTextFieldState extends State<AuthTextField> {
   Widget build(BuildContext context) => SizedBox(
     height: 40,
     child: TextField(
+      controller: widget.controller,
+      keyboardType: widget.keyboardType,
+      autocorrect: !widget.obscure,
       obscureText: widget.obscure && _hide,
       style: const TextStyle(color: Colors.white, fontSize: 11),
       decoration: InputDecoration(
@@ -94,7 +101,7 @@ class AuthButton extends StatelessWidget {
     this.icon,
   });
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final IconData? icon;
 
   @override
@@ -127,9 +134,11 @@ class AuthPage extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: child,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: child,
+            ),
           ),
         ),
       ),
@@ -139,7 +148,7 @@ class AuthPage extends StatelessWidget {
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({super.key, required this.onTap});
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) => SizedBox(

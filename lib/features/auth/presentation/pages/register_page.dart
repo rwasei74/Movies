@@ -1,69 +1,142 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../home/presentation/pages/home_page.dart';
+import '../../data/repositories/firebase_auth_repository.dart';
+import '../viewmodels/auth_view_model.dart';
 import '../widgets/auth_widgets.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
   @override
-  Widget build(BuildContext context) => AuthPage(
-    child: Column(
-      children: [
-        const SizedBox(height: 9),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Color(0xFFFFC400),
-              size: 17,
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _confirm = TextEditingController();
+  late final _model = AuthViewModel(
+    FirebaseAuthRepository(FirebaseAuth.instance),
+  );
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _email.dispose();
+    _password.dispose();
+    _confirm.dispose();
+    _model.close();
+    super.dispose();
+  }
+
+  Future<void> _register() async {
+    if (_name.text.trim().isEmpty ||
+        _email.text.trim().isEmpty ||
+        _password.text.isEmpty) {
+      _model.validationError('Please fill in all fields.');
+      return;
+    }
+    if (_password.text != _confirm.text) {
+      _model.validationError('Passwords do not match.');
+      return;
+    }
+    final success = await _model.run(
+      () => _model.repository.register(
+        name: _name.text,
+        email: _email.text,
+        password: _password.text,
+      ),
+    );
+    if (success && mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (_) => const HomePage()),
+        (_) => false,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => BlocBuilder<AuthViewModel, AuthState>(
+    bloc: _model,
+    builder: (context, state) => AuthPage(
+      child: Column(
+        children: [
+          const SizedBox(height: 9),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Color(0xFFFFC400),
+                size: 17,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 4),
-        const _Avatars(),
-        const SizedBox(height: 2),
-        const Text(
-          'Avatar',
-          style: TextStyle(color: Colors.white, fontSize: 8),
-        ),
-        const SizedBox(height: 20),
-        const AuthTextField(hint: 'Name', icon: Icons.badge_outlined),
-        const SizedBox(height: 10),
-        const AuthTextField(
-          hint: 'Email',
-          icon: Icons.mail_rounded,
-          iconAsset: 'assets/icons/Vector (3).png',
-        ),
-        const SizedBox(height: 10),
-        const AuthTextField(
-          hint: 'Password',
-          icon: Icons.lock_rounded,
-          iconAsset: 'assets/icons/Vector (1).png',
-          obscure: true,
-        ),
-        const SizedBox(height: 10),
-        const AuthTextField(
-          hint: 'Confirm Password',
-          icon: Icons.lock_rounded,
-          iconAsset: 'assets/icons/Vector (1).png',
-          obscure: true,
-        ),
-        const SizedBox(height: 10),
-        const AuthTextField(
-          hint: 'Phone Number',
-          icon: Icons.phone_rounded,
-          iconAsset: 'assets/icons/Vector (4).png',
-        ),
-        const SizedBox(height: 12),
-        AuthButton(label: 'Create Account', onTap: () {}),
-        const SizedBox(height: 16),
-        const Text(
-          'Already Have Account ? Login',
-          style: TextStyle(color: Colors.white, fontSize: 8),
-        ),
-        const SizedBox(height: 13),
-        const _RegisterLanguages(),
-      ],
+          const SizedBox(height: 4),
+          const _Avatars(),
+          const SizedBox(height: 2),
+          const Text(
+            'Avatar',
+            style: TextStyle(color: Colors.white, fontSize: 8),
+          ),
+          const SizedBox(height: 20),
+          AuthTextField(
+            hint: 'Name',
+            icon: Icons.badge_outlined,
+            controller: _name,
+          ),
+          const SizedBox(height: 10),
+          AuthTextField(
+            controller: _email,
+            keyboardType: TextInputType.emailAddress,
+            hint: 'Email',
+            icon: Icons.mail_rounded,
+            iconAsset: 'assets/icons/Vector (3).png',
+          ),
+          const SizedBox(height: 10),
+          AuthTextField(
+            controller: _password,
+            hint: 'Password',
+            icon: Icons.lock_rounded,
+            iconAsset: 'assets/icons/Vector (1).png',
+            obscure: true,
+          ),
+          const SizedBox(height: 10),
+          AuthTextField(
+            controller: _confirm,
+            hint: 'Confirm Password',
+            icon: Icons.lock_rounded,
+            iconAsset: 'assets/icons/Vector (1).png',
+            obscure: true,
+          ),
+          const SizedBox(height: 12),
+          AuthButton(
+            label: state.loading ? 'Please wait...' : 'Create Account',
+            onTap: state.loading ? null : _register,
+          ),
+          if (state.error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                state.error!,
+                style: const TextStyle(color: Colors.redAccent),
+              ),
+            ),
+          const SizedBox(height: 16),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Text(
+              'Already Have Account ? Login',
+              style: TextStyle(color: Colors.white, fontSize: 8),
+            ),
+          ),
+          const SizedBox(height: 13),
+          const _RegisterLanguages(),
+        ],
+      ),
     ),
   );
 }
