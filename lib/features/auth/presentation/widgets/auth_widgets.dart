@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/localization/app_language.dart';
+
 const _yellow = Color(0xFFFFC400);
 const _fieldColor = Color(0xFF262928);
 
@@ -42,16 +44,16 @@ class _AuthTextFieldState extends State<AuthTextField> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 40,
+    height: 44,
     child: TextField(
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       autocorrect: !widget.obscure,
       obscureText: widget.obscure && _hide,
-      style: const TextStyle(color: Colors.white, fontSize: 11),
+      style: const TextStyle(color: Colors.white, fontSize: 13),
       decoration: InputDecoration(
         hintText: widget.hint,
-        hintStyle: const TextStyle(color: Color(0xFFD0D0D0), fontSize: 10),
+        hintStyle: const TextStyle(color: Color(0xFFD0D0D0), fontSize: 12),
         prefixIcon: widget.iconAsset == null
             ? Icon(widget.icon, color: Colors.white, size: 17)
             : Padding(
@@ -107,7 +109,7 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
     width: double.infinity,
-    height: 42,
+    height: 46,
     child: ElevatedButton.icon(
       onPressed: onTap,
       icon: icon == null ? const SizedBox.shrink() : Icon(icon, size: 17),
@@ -117,7 +119,7 @@ class AuthButton extends StatelessWidget {
         backgroundColor: _yellow,
         foregroundColor: Colors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+        textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
       ),
     ),
   );
@@ -153,7 +155,7 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
     width: double.infinity,
-    height: 42,
+    height: 46,
     child: ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
@@ -171,9 +173,13 @@ class GoogleButton extends StatelessWidget {
             height: 16,
           ),
           const SizedBox(width: 6),
-          const Text(
-            'Login with Google',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+          Text(
+            AppLanguage.text(
+              context,
+              en: 'Login with Google',
+              ar: 'تسجيل الدخول عبر Google',
+            ),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_language.dart';
 import '../../data/repositories/firebase_auth_repository.dart';
 import '../viewmodels/auth_view_model.dart';
 import '../widgets/auth_widgets.dart';
@@ -71,14 +72,18 @@ class _LoginPageState extends State<LoginPage> {
           AuthTextField(
             controller: _email,
             keyboardType: TextInputType.emailAddress,
-            hint: 'Email',
+            hint: AppLanguage.text(
+              context,
+              en: 'Email',
+              ar: 'البريد الإلكتروني',
+            ),
             icon: Icons.mail_rounded,
             iconAsset: 'assets/icons/Vector (3).png',
           ),
           const SizedBox(height: 10),
           AuthTextField(
             controller: _password,
-            hint: 'Password',
+            hint: AppLanguage.text(context, en: 'Password', ar: 'كلمة المرور'),
             icon: Icons.lock_rounded,
             iconAsset: 'assets/icons/Vector (1).png',
             obscure: true,
@@ -95,14 +100,24 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.only(top: 3, bottom: 8),
                 minimumSize: Size.zero,
               ),
-              child: const Text(
-                'Forget Password ?',
-                style: TextStyle(color: Color(0xFFFFC400), fontSize: 8),
+              child: Text(
+                AppLanguage.text(
+                  context,
+                  en: 'Forgot password?',
+                  ar: 'نسيت كلمة المرور؟',
+                ),
+                style: const TextStyle(color: Color(0xFFFFC400), fontSize: 10),
               ),
             ),
           ),
           AuthButton(
-            label: state.loading ? 'Please wait...' : 'Login',
+            label: state.loading
+                ? AppLanguage.text(
+                    context,
+                    en: 'Please wait...',
+                    ar: 'يرجى الانتظار...',
+                  )
+                : AppLanguage.text(context, en: 'Login', ar: 'تسجيل الدخول'),
             onTap: state.loading ? null : _login,
           ),
           if (state.error != null)
@@ -115,13 +130,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           const SizedBox(height: 20),
           Row(
-            children: const [
+            children: [
               Expanded(child: Divider(color: Color(0xFFFFC400))),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  'OR',
-                  style: TextStyle(color: Colors.white, fontSize: 9),
+                  AppLanguage.text(context, en: 'OR', ar: 'أو'),
+                  style: const TextStyle(color: Colors.white, fontSize: 11),
                 ),
               ),
               Expanded(child: Divider(color: Color(0xFFFFC400))),
@@ -133,45 +148,32 @@ class _LoginPageState extends State<LoginPage> {
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text(
-                "Don't Have Account ? ",
-                style: TextStyle(color: Colors.white, fontSize: 8),
+              Text(
+                AppLanguage.text(
+                  context,
+                  en: "Don't have an account? ",
+                  ar: 'ما عندكش حساب؟ ',
+                ),
+                style: const TextStyle(color: Colors.white, fontSize: 10),
               ),
               GestureDetector(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(builder: (_) => const RegisterPage()),
                 ),
-                child: const Text(
-                  'Create One',
-                  style: TextStyle(color: Color(0xFFFFC400), fontSize: 8),
+                child: Text(
+                  AppLanguage.text(context, en: 'Create one', ar: 'إنشاء حساب'),
+                  style: const TextStyle(
+                    color: Color(0xFFFFC400),
+                    fontSize: 10,
+                  ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 36),
-          const _LanguageSwitcher(),
+          const LanguageSwitcher(),
         ],
       ),
-    ),
-  );
-}
-
-class _LanguageSwitcher extends StatelessWidget {
-  const _LanguageSwitcher();
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-    decoration: BoxDecoration(
-      border: Border.all(color: const Color(0xFFFFC400)),
-      borderRadius: BorderRadius.circular(11),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.asset('assets/icons/LR.png', width: 14),
-        const SizedBox(width: 5),
-        const Text('🇱🇾', style: TextStyle(fontSize: 13)),
-      ],
     ),
   );
 }

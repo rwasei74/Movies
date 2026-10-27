@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_language.dart';
 import '../../data/repositories/firebase_auth_repository.dart';
 import '../viewmodels/auth_view_model.dart';
 import '../widgets/auth_widgets.dart';
@@ -70,13 +71,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           AuthTextField(
             controller: _email,
             keyboardType: TextInputType.emailAddress,
-            hint: 'Email',
+            hint: AppLanguage.text(
+              context,
+              en: 'Email',
+              ar: 'البريد الإلكتروني',
+            ),
             icon: Icons.mail_rounded,
             iconAsset: 'assets/icons/Vector (3).png',
           ),
           const SizedBox(height: 12),
           AuthButton(
-            label: state.loading ? 'Please wait...' : 'Verify Email',
+            label: state.loading
+                ? AppLanguage.text(
+                    context,
+                    en: 'Please wait...',
+                    ar: 'يرجى الانتظار...',
+                  )
+                : AppLanguage.text(
+                    context,
+                    en: 'Verify email',
+                    ar: 'تأكيد البريد الإلكتروني',
+                  ),
             onTap: state.loading ? null : _reset,
           ),
           if (state.error != null)

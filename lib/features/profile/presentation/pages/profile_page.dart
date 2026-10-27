@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
+import '../../../../core/localization/app_language.dart';
+
 import '../../../auth/presentation/pages/login_page.dart';
 import '../../../auth/data/repositories/firebase_auth_repository.dart';
 import '../../../home/domain/entities/movie.dart';
@@ -53,6 +55,11 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.fromLTRB(8, 15, 8, 0),
       child: Column(
         children: [
+          const Align(
+            alignment: Alignment.centerRight,
+            child: LanguageSwitcher(),
+          ),
+          const SizedBox(height: 4),
           const CircleAvatar(
             radius: 32,
             backgroundColor: Color(0xFFE95F4A),

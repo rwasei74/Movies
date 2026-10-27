@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/localization/app_language.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../data/repositories/firebase_auth_repository.dart';
 import '../viewmodels/auth_view_model.dart';
@@ -78,13 +79,13 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(height: 4),
           const _Avatars(),
           const SizedBox(height: 2),
-          const Text(
-            'Avatar',
-            style: TextStyle(color: Colors.white, fontSize: 8),
+          Text(
+            AppLanguage.text(context, en: 'Avatar', ar: 'الصورة الشخصية'),
+            style: const TextStyle(color: Colors.white, fontSize: 10),
           ),
           const SizedBox(height: 20),
           AuthTextField(
-            hint: 'Name',
+            hint: AppLanguage.text(context, en: 'Name', ar: 'الاسم'),
             icon: Icons.badge_outlined,
             controller: _name,
           ),
@@ -92,14 +93,18 @@ class _RegisterPageState extends State<RegisterPage> {
           AuthTextField(
             controller: _email,
             keyboardType: TextInputType.emailAddress,
-            hint: 'Email',
+            hint: AppLanguage.text(
+              context,
+              en: 'Email',
+              ar: 'البريد الإلكتروني',
+            ),
             icon: Icons.mail_rounded,
             iconAsset: 'assets/icons/Vector (3).png',
           ),
           const SizedBox(height: 10),
           AuthTextField(
             controller: _password,
-            hint: 'Password',
+            hint: AppLanguage.text(context, en: 'Password', ar: 'كلمة المرور'),
             icon: Icons.lock_rounded,
             iconAsset: 'assets/icons/Vector (1).png',
             obscure: true,
@@ -107,14 +112,28 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(height: 10),
           AuthTextField(
             controller: _confirm,
-            hint: 'Confirm Password',
+            hint: AppLanguage.text(
+              context,
+              en: 'Confirm password',
+              ar: 'تأكيد كلمة المرور',
+            ),
             icon: Icons.lock_rounded,
             iconAsset: 'assets/icons/Vector (1).png',
             obscure: true,
           ),
           const SizedBox(height: 12),
           AuthButton(
-            label: state.loading ? 'Please wait...' : 'Create Account',
+            label: state.loading
+                ? AppLanguage.text(
+                    context,
+                    en: 'Please wait...',
+                    ar: 'يرجى الانتظار...',
+                  )
+                : AppLanguage.text(
+                    context,
+                    en: 'Create account',
+                    ar: 'إنشاء حساب',
+                  ),
             onTap: state.loading ? null : _register,
           ),
           if (state.error != null)
@@ -128,13 +147,17 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(height: 16),
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Text(
-              'Already Have Account ? Login',
-              style: TextStyle(color: Colors.white, fontSize: 8),
+            child: Text(
+              AppLanguage.text(
+                context,
+                en: 'Already have an account? Login',
+                ar: 'عندك حساب؟ سجل دخول',
+              ),
+              style: const TextStyle(color: Colors.white, fontSize: 10),
             ),
           ),
           const SizedBox(height: 13),
-          const _RegisterLanguages(),
+          const LanguageSwitcher(),
         ],
       ),
     ),
@@ -165,19 +188,6 @@ class _Avatars extends StatelessWidget {
         backgroundColor: Color(0xFFC45B39),
         child: Text('👨🏽‍🚒', style: TextStyle(fontSize: 21)),
       ),
-    ],
-  );
-}
-
-class _RegisterLanguages extends StatelessWidget {
-  const _RegisterLanguages();
-  @override
-  Widget build(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Image.asset('assets/icons/LR.png', width: 15),
-      const SizedBox(width: 5),
-      const Text('🇱🇾', style: TextStyle(fontSize: 14)),
     ],
   );
 }
